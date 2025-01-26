@@ -1,14 +1,14 @@
 import random
 
-from snake import *
-from ai.evolution import Evolution
+from snake.snake import *
+from snake.ai.evolution import Evolution
+
+import pygame
 
 
 class Game:
     def __init__(self, ai_playing=False):
         self.ai_playing = ai_playing
-
-        self.clock = pygame.time.Clock()
 
         if not self.ai_playing:
             self.window_width = NORMAL_WINDOW_WIDTH
@@ -25,13 +25,12 @@ class Game:
             self.window_size = AI_WINDOW_SIZE
             self.snake = Snake(AI_HEAD_START_X, AI_HEAD_START_Y)
 
-        pygame.display.quit()
-        pygame.display.init()
+        self.clock = pygame.time.Clock()
         self.window = pygame.display.set_mode(self.window_size)
         pygame.display.set_caption("Snake")
 
-        self.background_image = pygame.image.load("sprites/game_bg.jpg").convert()
-        self.score_image = pygame.image.load("sprites/score_bg.jpg").convert()
+        self.background_image = pygame.image.load("src/sprites/game_bg.jpg").convert()
+        self.score_image = pygame.image.load("src/sprites/score_bg.jpg").convert()
 
         pygame.transform.scale(self.window, self.window_size)
         self.window.blit(self.background_image, (0, 0))
@@ -39,8 +38,9 @@ class Game:
 
         self.fruit = self.spawn_fruit()
 
-    def check_keys(self):
+    def handle_keys(self):
         keys = pygame.key.get_pressed()
+
         if (keys[pygame.K_a] or keys[pygame.K_LEFT]) and self.snake.direction != DIRECTIONS["Right"]:
             self.snake.direction = DIRECTIONS["Left"]
         elif (keys[pygame.K_w] or keys[pygame.K_UP]) and self.snake.direction != DIRECTIONS["Down"]:
@@ -67,8 +67,11 @@ class Game:
     def spawn_fruit(self):
         fruit = FruitTile(random.randrange(0, self.window_squares_width),
                           random.randrange(0, self.window_squares_height))
-        if fruit in self.snake.tiles:
-            fruit = self.spawn_fruit()
+
+        while fruit in self.snake.tiles:
+            fruit = FruitTile(random.randrange(0, self.window_squares_width),
+                              random.randrange(0, self.window_squares_height))
+
         fruit.draw(self.window)
         pygame.display.update()
         return fruit
@@ -90,7 +93,7 @@ class Game:
                     break
 
                 if not self.ai_playing:
-                    self.check_keys()
+                    self.handle_keys()
 
             try:
                 self.snake.move(self.fruit)
@@ -103,4 +106,5 @@ class Game:
             pygame.display.update()
 
         pygame.time.delay(1000)
+        self.window = pygame.display.set_mode(NORMAL_WINDOW_SIZE)
         # print(f"Moves: {self.snake.move_counter}, score: {self.snake.score}")

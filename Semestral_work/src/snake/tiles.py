@@ -1,6 +1,8 @@
 from abc import ABC, abstractmethod
 
-from utils import *
+from snake.utils import *
+
+import pygame
 
 
 class Tile(ABC):
@@ -38,13 +40,15 @@ class Tile(ABC):
 
 
 class ButtonTile(Tile):
-    def __init__(self, x, y, width, height, selected, text):
+    def __init__(self, x, y, width, height, selected, text, action=lambda: None):
         super().__init__(x, y, width, height)
+        self.x *= SQUARE_WIDTH
+        self.y *= SQUARE_HEIGHT
+
         self.font = pygame.font.SysFont(MM_BUTTON_FONT, MM_BUTTON_FONT_SIZE)
         self.selected = selected
         self.text = text
-        self.x = self.x * SQUARE_WIDTH
-        self.y = self.y * SQUARE_HEIGHT
+        self.action = action
 
     def draw(self, window):
         if self.selected:

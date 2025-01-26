@@ -1,6 +1,6 @@
 from collections import deque
 
-from tiles import *
+from snake.tiles import *
 
 
 class Snake:

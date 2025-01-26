@@ -1,8 +1,8 @@
 import math
 
-from snake import *
-from ai.neural_network import *
-from ai.bfs_check import bfs_check
+from snake.snake import *
+from snake.ai.neural_network import *
+from snake.ai.bfs_check import bfs_check
 
 
 class SnakeIndividual:
@@ -42,34 +42,23 @@ class SnakeIndividual:
 
         if new_head in self.snake.body \
                 or new_head.x in [-1, AI_WINDOW_SQUARES_WIDTH] \
-                or new_head.y in [-1, AI_WINDOW_SQUARES_HEIGHT]:  # 0 if the snake is going to die
-            return 0
+                or new_head.y in [-1, AI_WINDOW_SQUARES_HEIGHT]:  # -100 if the snake is going to die
+            return -100
 
         reachable_nodes = bfs_check(self.snake, new_head)
         free_nodes = AI_WINDOW_SQUARES_WIDTH * AI_WINDOW_SQUARES_HEIGHT - len(self.snake.tiles)
+
         # trying to move to the node from which more other nodes can be reached -> computing the ratio
         reachable_nodes_ratio = reachable_nodes / free_nodes
 
-        if len(self.snake.tiles) < int(0.25 * AI_WINDOW_SQUARES_WIDTH * AI_WINDOW_SQUARES_HEIGHT):
-            if reachable_nodes_ratio < 0.9:  # ratio if the snake won't be able to reach at least 90% of the free nodes
-                fitness = reachable_nodes_ratio
-            else:
-                if current_distance < new_distance:  # 2 if the snake will get further from the fruit
-                    fitness = 2
-                elif current_distance == new_distance:  # 3 if the distance won't change
-                    fitness = 3
-                else:  # 4 if the snake will get closer to the fruit
-                    fitness = 4
-        else:
-            if current_distance < new_distance:
-                multiplier = 1
-            elif current_distance == new_distance:
-                multiplier = 1.1
-            else:
-                multiplier = 1.2
-            # for the long snake ratio is more valuable than the distance to the fruit
-            fitness = reachable_nodes_ratio * multiplier
-        return fitness
+        if current_distance < new_distance:  # if the snake will get further from the fruit
+            fruit_proximity_multiplier = 1
+        elif current_distance == new_distance:  # if the distance won't change
+            fruit_proximity_multiplier = 2
+        else:  # if the snake will get closer to the fruit
+            fruit_proximity_multiplier = 3
+
+        return fruit_proximity_multiplier * reachable_nodes_ratio
 
     def get_nn_inputs(self):
         inputs = []

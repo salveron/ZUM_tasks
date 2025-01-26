@@ -1,7 +1,5 @@
 from collections import namedtuple
 
-import pygame
-
 
 nn_inputs_type = namedtuple("nn_inputs", "lw lf lb uw uf ub rw rf rb dw df db")
 
@@ -47,7 +45,7 @@ SCORE_FONT_SIZE = 18
 SCORE_FONT_COLOR = MM_SELECTED_BUTTON_BORDER_COLOR
 
 HUMAN_GAME_FPS = 10
-AI_GAME_FPS = 15
+AI_GAME_FPS = 20
 
 NORMAL_HEAD_START_X = NORMAL_WINDOW_SQUARES_WIDTH // 2 + 1
 NORMAL_HEAD_START_Y = NORMAL_WINDOW_SQUARES_HEIGHT // 2 + 1
@@ -65,11 +63,11 @@ DIRECTIONS = {"Left": (-1, 0),
               "Right": (1, 0),
               "Down": (0, 1)}
 AI_WALLS = {"Left": (-1, None),
-         "Up": (None, -1),
-         "Right": (AI_WINDOW_SQUARES_WIDTH, None),
-         "Down": (None, AI_WINDOW_SQUARES_HEIGHT)}
+            "Up": (None, -1),
+            "Right": (AI_WINDOW_SQUARES_WIDTH, None),
+            "Down": (None, AI_WINDOW_SQUARES_HEIGHT)}
 
-NUMBER_OF_GENERATIONS = 7
+NUMBER_OF_GENERATIONS = 15
 POPULATION_SIZE = 8
 PARENTS_PERCENT = .5
 CROSSOVER_RATE = .9

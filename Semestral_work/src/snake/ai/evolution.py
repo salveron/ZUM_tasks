@@ -1,4 +1,4 @@
-from ai.snake_individual import *
+from snake.ai.snake_individual import *
 
 
 class Evolution:
@@ -14,10 +14,11 @@ class Evolution:
         return sum([individual.fitness for individual in self.population]) / len(self.population)
 
     def selection(self, how_many):  # Roulette selection
-        selected = []
         overall_fitness = sum([i.fitness for i in self.population])
-        chances = {i: (i.fitness / overall_fitness if overall_fitness > 0.0 else 1.0 / len(self.population))
+        chances = {i: ((i.fitness / overall_fitness) if (overall_fitness > 0.0) else (1.0 / len(self.population)))
                    for i in self.population}
+
+        selected = []
         for _ in range(how_many):
             pick = random.uniform(0.0, 1.0)
             current = 0
@@ -26,6 +27,7 @@ class Evolution:
                 if current >= pick:
                     selected.append(individual)
                     break
+
         return selected
 
     def start(self, num_of_gens=NUMBER_OF_GENERATIONS, par_percent=PARENTS_PERCENT,

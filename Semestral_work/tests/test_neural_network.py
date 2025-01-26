@@ -1,7 +1,7 @@
 import pytest
 
-from ai.neural_network import NeuralNetwork
-from utils import *
+from snake.ai.neural_network import NeuralNetwork
+from snake.utils import *
 
 
 nn = NeuralNetwork()

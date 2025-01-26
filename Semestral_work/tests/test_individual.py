@@ -1,9 +1,9 @@
 import pytest
 
-from snake import Snake
-from tiles import FruitTile
-from ai.snake_individual import SnakeIndividual
-from utils import *
+from snake.snake import Snake
+from snake.tiles import FruitTile
+from snake.ai.snake_individual import SnakeIndividual
+from snake.utils import *
 
 
 snake = Snake(NORMAL_HEAD_START_X, NORMAL_HEAD_START_Y)

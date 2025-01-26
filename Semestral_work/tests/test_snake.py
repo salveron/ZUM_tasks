@@ -1,8 +1,8 @@
 import pytest
 
-from snake import Snake
-from tiles import FruitTile
-from utils import *
+from snake.snake import Snake
+from snake.tiles import FruitTile
+from snake.utils import *
 
 
 def test_snake_creation():

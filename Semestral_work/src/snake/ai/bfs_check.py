@@ -2,7 +2,7 @@ from collections import deque
 
 import numpy as np
 
-from utils import *
+from snake.utils import *
 
 
 def bfs_check(snake, new_head):

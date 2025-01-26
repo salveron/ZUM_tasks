@@ -1,7 +1,8 @@
 import random
-import numpy as np
 
-from utils import *
+from snake.utils import *
+
+import numpy as np
 
 
 class NeuralNetwork:
